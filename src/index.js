@@ -4,7 +4,14 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+// const client = new ApolloClient({
+//     uri:"https://api.thegraph.com/subgraphs/name/graphprotocol/uniswap"
+// });
+
+const Root = () =>{
+    return <App />
+}
+ReactDOM.render(<Root />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
