@@ -1,18 +1,21 @@
 import React, { Component } from 'react';
 import './App.css';
-// import gql from 'graphql-tag';
-// import {graphql} from 'react-apollo';
+import Popup from "reactjs-popup";
 
 const axios = require('axios');
+
 class App extends Component {
   constructor(props){
     super(props);
     this.state = {
       users: [],
-      ethBalances: []
+      ethBalances: [],
+      to: "",
+      from: "",
+      ethAmount: 0
     }
   }
-
+  
   componentDidMount(){
 		this.fetchUsers();
 	}
@@ -48,12 +51,14 @@ class App extends Component {
         `
         }
       }).then((result)=>{
-       result = result.data
-       this.setState({users: result.data.users.map((user)=>{return user.id})})
-       this.setState({ ethBalance:  result.data.users.map((user)=>{
-         return user.exchangeBalances.ethBought - user.exchangeBalances.ethWithdrawn
-       })})
-    })
+        result = result.data
+       this.setState({users: result.data.users.map((user)=>{return user.id})});
+       this.setState({ ethBalances:  result.data.users.map((user)=>{
+        return user.exchangeBalances.map((props)=>{
+          return props.ethBought-props.ethWithdrawn;
+        })})});
+       })
+
   }
   
 
@@ -61,7 +66,7 @@ renderUsers(){
   return this.state.users.map((id)=>{
     return (
       <li className="collection-item">
-          User: {id}
+          User: {id}   
       </li>
     )
   })
@@ -70,26 +75,96 @@ renderUsers(){
 renderEthBalance(){
   return this.state.ethBalances.map((balance)=>{
     return (
-      <li key={balance.id}className="collection-item">
-          ETH Balance: {balance}
+      <li key={balance} className="collection-item">
+          ETH Balance: {balance} wei
       </li>
     )
   })
 }
 
+// onSubmit(event){
+//   event.preventDefault();
+//   //reach out to backend server and add a new song to collection
+//   // mutation needed
+//   this.props.mutate({
+//       variables: { title: this.state.title},
+//       refetchQueries: [{ query }]
+//   }).then(() => hashHistory.push('/')); //keeping track of history of user navigation
+// }
+
+displayForm(e){
+  e.preventDefault();
+  e.target.value ="Transfer ETH"
+  if(e.target.value = "Transfer ETH"){
+    return this.renderForm();
+    }
+  }
+  
+  updateTo(e){
+    e.preventDefault();
+    console.log(e.target.value);
+  }
+
+  onSubmitForm(e){
+    e.preventDefault();
+  }
+  
+  // handleChangeEthAmount(e){
+  //   e.preventDefault()
+  //   this.setState({ ethAmount: e.target.value })
+  // }
+  // handleChangeTo(e){
+  //   e.preventDefault()
+  //   this.setState({ to: e.target.value })
+  // }
+  // handleChangeFrom(e){
+  //   e.preventDefault()
+  //   console.log(e.target.value)
+  //   this.setState({ from: e.target.value })
+  // }
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          Terminal Challenge
-        </header>
-        <ul>
+      <div>
+      <div className="container">
+        
+        <h3>Terminal Challenge</h3>
+        </div>
+        <div className="row">
+      <div className="col s6" style={{float: "left"}}>
+      <ul className="collection">
           {this.renderUsers()}
+        </ul>
+        </div>
+        <div className="col s6" style={{ float: "right"}}>
+        <ul className="collection">
           {this.renderEthBalance()}
         </ul>
-      </div>
+        </div>
+        </div>
+        
+        <div className="container">
+        <Popup trigger={<button>Transfer ETH</button>} position="right center">
+    <div>
+    <form handleSubmit={this.handleSubmit}>
+        
+        <input />
+        <label>To: </label>
+        <input type="text" value={this.state.to} onChange={this.handleChangeTo} />
+
+        <label>From: </label>
+        <input value={this.state.to} onChange={this.handleChangeFrom} />
+
+        <label> Amount of ETH: </label>
+        <input value={this.state.ethAmount} onChange={this.handleChangeEthAmount} />
+        <br/><br />
+        <button>Transfer ETH</button>
+      </form>
+    </div>
+  </Popup>
+        </div>
+        </div>
     );
   }
 }
-
 export default App;
+
