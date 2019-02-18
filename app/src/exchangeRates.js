@@ -8,9 +8,6 @@ import EthBalances from './ethBalances';
 
 
 const Web3 = require('web3');
-const web3 = new Web3(
-  new Web3.providers.HttpProvider('https://mainnet.infura.io/')
-);
 
 const QUERY = gql`
 {
@@ -67,9 +64,9 @@ setStateUserAddress(userId){
                     
                    return (
                       <Collapsible key={user.id}>
-                        <CollapsibleItem header={`User ID: ${user.id}`}>
+                        <CollapsibleItem header={`User ID: ${user.id}`} icon='account_circle'>
                         Eth Balance: <EthBalances address={user.id} /><br/>
-                        Last Transaction: <Transactions user={user.id} />
+                        Transactions: <Transactions user={user.id} />
                         </CollapsibleItem>
                       </Collapsible>
                         )
@@ -78,7 +75,6 @@ setStateUserAddress(userId){
                 )
             }}
     </Query>
-    
     </div>
     )
                     }

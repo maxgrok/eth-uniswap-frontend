@@ -6,7 +6,6 @@ class EthBalances extends Component{
     constructor(props){
         super(props);
         this.state = {
-            ids: [],
             balance: ""
         }
     }
