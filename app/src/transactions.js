@@ -5,16 +5,25 @@ import { graphql } from 'react-apollo';
 
 const TRANS_QUERY = gql` 
     {
-  transactions(where: {userAddress: $userAddress}) {
-    id
-    ethAmount
-    timeStamp
-  }
-}`
-//how to export the prop user (user address) to the TRANS_QUERY
+      transactions(where: $userAddress) {
+        id
+        ethAmount
+        timeStamp
+      }
+    }`
 
 class Transaction extends Component{
-    render(){
+  constructor(props){
+    super(props);
+    this.state = {
+      transactions: []
+    }
+  }
+
+  componentDidMount(){
+  }
+  
+  render(){
         return (
         <Query 
       query={TRANS_QUERY}
