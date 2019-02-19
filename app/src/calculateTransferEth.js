@@ -12,6 +12,8 @@ class calculateTransferEth extends Component{
             fromBalance: 0
         }
     }
+
+    
     render(){
         return (
             <div>

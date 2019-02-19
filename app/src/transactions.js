@@ -5,12 +5,17 @@ import { graphql } from 'react-apollo';
 
 const TRANS_QUERY = gql` 
     {
-      transactions(first: 4, where: $userAddress, first: 10) {
+      transactions(where: $userAddress, orderBy: timeStamp, orderDirection: desc) {
         id
         ethAmount
         timeStamp
+    		tokenSymbol	
+    		tokenAmount
+    		fee
       }
     }`
+
+const Web3 = require('web3');
 
 class Transaction extends Component{
   constructor(props){
@@ -20,6 +25,14 @@ class Transaction extends Component{
     }
   }
   
+  async ethAmount(amount){
+    const web3 = new Web3(
+      new Web3.providers.HttpProvider('https://mainnet.infura.io/')
+    );
+    let promise = web3.utils.fromWei(amount, 'ether');
+    let ether = await promise; 
+    return ether
+  }
   render(){
         return (
         <Query 
@@ -31,17 +44,36 @@ if (error) return <p>Error :</p>;
 
 return (
 <div>
+<table>
+      <thead>
+      <tr>
+        <th>Tx#</th>
+        <th>Tx ID</th>
+        <th>TimeStamp</th>
+        <th>ethAmount</th>
+        <th>Token Symbol</th>
+        <th>Fee</th>
+      </tr>
+    </thead>
+  <tbody>
 {data.transactions.map((transaction, index)=>{
-//display the transaction Id, ethAmount, timeStamp
+  if (index < 10){
 index = index + 1;
     return (
-    <div key={transaction.id}>
-      <p>{index}) Transaction ID: {transaction.id}</p>
-      <p>Time Stamp: {new Date(transaction.timeStamp *1000).toUTCString()}</p>
-      <p>ethAmount: {transaction.ethAmount} wei</p>
-    </div>
+    <tr key={transaction.id}>
+      <td>{index}</td>
+      <td>{transaction.id}</td>
+      <td>{new Date(transaction.timeStamp*1000).toUTCString()}</td>
+      <td>{transaction.ethAmount} wei</td>
+      <td>{transaction.tokenSymbol}</td>
+      <td>{transaction.fee} wei</td>
+    </tr>
     )
+  }
 })}
+
+</tbody>
+</table>
 </div>
 )}}
     </Query>

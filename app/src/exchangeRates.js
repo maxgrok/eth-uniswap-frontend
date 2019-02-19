@@ -65,7 +65,8 @@ setStateUserAddress(userId){
                       <Collapsible key={user.id}>
                         <CollapsibleItem header={`User ID: ${user.id}`} icon='account_circle'>
                         Eth Balance: <EthBalances address={user.id} /><br/>
-                        Transactions: <Transactions user={user.id} />
+                        Transactions: 
+                                <Transactions user={user.id} />
                         </CollapsibleItem>
                       </Collapsible>
                         )

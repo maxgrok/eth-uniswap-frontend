@@ -25,9 +25,9 @@ class TransferEthForm extends Component{
             //alert Popup confirming transfer complete
         
         return (
-            <PopUp>
+            <div>
                 Transfer Complete! 
-            </PopUp>
+            </div>
         )
     }
     render(){
