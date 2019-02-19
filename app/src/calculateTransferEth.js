@@ -3,7 +3,15 @@ import graphql from 'react-apollo';
 import gql from 'graphql-tag';
 
 class calculateTransferEth extends Component{
-
+    constructor(props){
+        super(props);
+        this.state ={
+            to: "",
+            from: "", 
+            toBalance: 0, 
+            fromBalance: 0
+        }
+    }
     render(){
         return (
             <div>

@@ -5,7 +5,7 @@ import {Collapsible, CollapsibleItem, Icon} from 'react-materialize';
 import Transactions from './transactions';
 import graphql from 'react-apollo';
 import EthBalances from './ethBalances';
-
+import ReactDOM from 'react-dom';
 
 const Web3 = require('web3');
 
@@ -45,7 +45,6 @@ setStateUserAddress(userId){
     ids: [...this, userId]
   })
 }
-
 
   render(){
     

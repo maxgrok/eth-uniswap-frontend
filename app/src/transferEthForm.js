@@ -6,7 +6,9 @@ class TransferEthForm extends Component{
         super(props);
         this.state ={
             to: "", 
+            toBalance: 0,
             from: "",
+            fromBalance: 0, 
             ethAmount: 0
         }
     }
@@ -14,6 +16,19 @@ class TransferEthForm extends Component{
     handleSubmit(e){
         e.preventDefault();
             //submit transaction change to apollo internal cache
+
+            //add Ether to toBalance 
+            //replace Eth Balance of that account with new Eth balance
+            //remove Ether from fromBalance
+            //replace Eth Balance of that account with new Eth Balance
+            //optimisticResponse updated in UI
+            //alert Popup confirming transfer complete
+        
+        return (
+            <PopUp>
+                Transfer Complete! 
+            </PopUp>
+        )
     }
     render(){
         return (

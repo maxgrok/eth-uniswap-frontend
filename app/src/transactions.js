@@ -5,7 +5,7 @@ import { graphql } from 'react-apollo';
 
 const TRANS_QUERY = gql` 
     {
-      transactions(where: $userAddress) {
+      transactions(first: 4, where: $userAddress, first: 10) {
         id
         ethAmount
         timeStamp
@@ -19,9 +19,6 @@ class Transaction extends Component{
       transactions: []
     }
   }
-
-  componentDidMount(){
-  }
   
   render(){
         return (
@@ -34,11 +31,12 @@ if (error) return <p>Error :</p>;
 
 return (
 <div>
-{data.transactions.map((transaction)=>{
-//display the transaction Id, ethAmount, timeStamp 
+{data.transactions.map((transaction, index)=>{
+//display the transaction Id, ethAmount, timeStamp
+index = index + 1;
     return (
-    <div>
-      <p>Transaction ID: {transaction.id}</p>
+    <div key={transaction.id}>
+      <p>{index}) Transaction ID: {transaction.id}</p>
       <p>Time Stamp: {new Date(transaction.timeStamp *1000).toUTCString()}</p>
       <p>ethAmount: {transaction.ethAmount} wei</p>
     </div>
@@ -52,5 +50,5 @@ return (
 }
 
 export default graphql(TRANS_QUERY, {
-  options: (props) => {return {variables: {userAddress: props.user}}
-}})(Transaction);
+  options: (props) => {return {variables: {userAddress: props.user }}}
+})(Transaction);
