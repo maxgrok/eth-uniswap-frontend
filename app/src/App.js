@@ -10,7 +10,7 @@ import {Collapsible, CollapsibleItem} from 'react-materialize';
 import { HttpLink } from 'apollo-link-http';
 
 const client = new ApolloClient({
-  link: new HttpLink("https://api.thegraph.com/subgraphs/name/graphprotocol/uniswap"), 
+  uri: "https://api.thegraph.com/subgraphs/name/graphprotocol/uniswap", 
   cache: new InMemoryCache({
     dataIdFromObject: object => object.id || null,
   })});

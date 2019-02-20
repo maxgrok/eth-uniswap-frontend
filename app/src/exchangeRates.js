@@ -7,29 +7,6 @@ import Transactions from './transactions';
 import EthBalances from './ethBalances';
 // import ReactDOM from 'react-dom';
 
-const {QUERY} = client.readQuery(
-  query: gql`{
-    users(first:10) {
-    id
-    exchangeBalances {
-        id
-        userAddress
-        exchangeAddress
-        ethDeposited
-        tokensDeposited
-        uniTokensMinted
-        uniTokensBurned
-        ethWithdrawn
-        tokensWithdrawn
-        ethBought
-        tokensBought
-        totalEthFeesPaid
-        totalTokenFeesPaid
-      }
-    }
-  }
-  `
-)
 
 class Users extends Component{
 
