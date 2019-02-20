@@ -11,7 +11,6 @@ class EthBalances extends Component{
     }
 
     componentDidMount(){
-        this.setState({ ids: this.props.users})
         this.setBalance(this.props.address).then(result => this.setState({
               balance: result
             }));

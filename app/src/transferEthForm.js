@@ -1,10 +1,12 @@
 import React, {Component} from "react";
 
-import {Button} from 'react-materialize';
-import query from './queries/fetchUsers';
-import gql from 'graphql-tag';
-import graphql from 'apollo-boost';
-import ReactDOM from 'react-dom';
+import {Button, Modal} from 'react-materialize';
+// import query from './queries/fetchUsers';
+// import gql from 'graphql-tag';
+// import graphql from 'apollo-boost';
+// import ReactDOM from 'react-dom';
+import Transaction from './transaction';
+
 const Web3 = require('web3');
 
 class TransferEthForm extends Component{
@@ -78,23 +80,9 @@ class TransferEthForm extends Component{
             this.updateBalance(toBalance, fromBalance);
             
             //render the div with the confirmation of transaction 
-            this.renderTransaction()
-        
+            this.setState({ to: "", toBalance: 0, from: "", fromBalance: 0, ethAmount: 0});
     }
 
-    renderTransaction(){
-        return(
-            <div>
-                Transfer Complete! 
-                To: {this.state.to}
-                From: {this.state.from}
-                Eth Amount: {this.state.ethAmount}
-                New To Balance: {this.state.toBalance}
-                New From Balance: {this.state.fromBalance}
-            </div>
-        )
-    }
-    
     handleTo(e){
         e.preventDefault();
         this.setState({to: e.target.value})
@@ -109,25 +97,32 @@ class TransferEthForm extends Component{
         e.preventDefault();
         this.setState({ ethAmount: e.target.value})
     }
+
     render(){
         return (
+            <div>
            <form onSubmit={this.handleSubmit.bind(this)}>
                
-               <input style={{"textAlign":"center"}} onChange={(e) =>{this.handleTo(e)} }value={this.state.to}/>
+               <input style={{"textAlign":"center"}} onChange={(e) =>{this.handleTo(e)} }value={this.state.to} name="to"/>
                <label >To: </label>
 
                
-               <input style={{"textAlign":"center"}} onChange={(e) =>this.handleFrom(e)} value={this.state.from}/>
+               <input style={{"textAlign":"center"}} onChange={(e) =>this.handleFrom(e)} value={this.state.from} name="from"/>
                <label >From: </label>
 
                
-               <input style={{"textAlign":"center"}} onChange={(e) =>this.handleEthAmount(e)} value={this.state.ethAmount}/>
+               <input style={{"textAlign":"center"}} onChange={(e) =>this.handleEthAmount(e)} value={this.state.ethAmount} name="ethAmount" />
                <label>ETH Amount: </label>
 
                <br/>
                <br/>
-                <Button>Transfer ETH</Button>
+               <Modal
+  header='Transfer Complete!'
+  trigger={<Button waves='light'>Transfer Eth</Button>} onClick={(e)=> {this.handleSubmit(e)}}>
+  <Transaction tx={this.state} />
+</Modal>
             </form>
+             </div>
         )
     }
 }

@@ -2,13 +2,16 @@ import React, { Component } from "react"
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 import {Collapsible, CollapsibleItem} from 'react-materialize';
-import Transactions from './transactions';
+import TransactionsList from './transactionsList';
 // import graphql from 'react-apollo';
 import EthBalances from './ethBalances';
 // import ReactDOM from 'react-dom';
 
 
 class Users extends Component{
+  constructor(props){
+    super(props);
+  }
 
   render(){
     return (
@@ -23,11 +26,11 @@ class Users extends Component{
                 <div>
                   {data.users.map((user, index) => {
                    return (
-                      <Collapsible key={user.id}>
-                        <CollapsibleItem header={`${user.id}`} icon='account_circle'>
-                        Eth Balance: <EthBalances address={user.id} /><br/>
+                      <Collapsible>
+                        <CollapsibleItem key={user.id} header={`${user.id}`} icon='account_circle'>
+                        Eth Balance: <EthBalances key={`EthBalance-${user.id}`}address={user.id} /><br/>
                         <div style={{"margin":"0 auto"}}>Transactions:</div> 
-                          <Transactions user={user.id} />
+                          <TransactionsList key={`transactions-${user.id}`} user={user.id} />
                         </CollapsibleItem>
                       </Collapsible>
                         )

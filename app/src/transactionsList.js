@@ -3,19 +3,29 @@ import gql from 'graphql-tag';
 import { Query } from "react-apollo";
 import { graphql } from 'react-apollo';
 
-class Transaction extends Component{
+
+class TransactionsList extends Component{
   constructor(props){
     super(props);
+    this.state = {
+      users: []
+    }
+  }
+
+  componentDidMount(){
+    this.state.users.push(this.props.user);
   }
 
   render(){
-        return (
+    return (
         <Query 
       query={TRANS_QUERY}
       >
             {({ loading, error, data }) => {
+
         if (loading) return <p>Loading...</p>;
         if (error) return <p>Error :</p>;
+        data.refetch(this.props.user);
         return (
         <div>
         <table>
@@ -31,7 +41,7 @@ class Transaction extends Component{
             </thead>
           <tbody>
         {data.transactions.map((transaction, index)=>{
-          if (index< 10){
+          if(index < 10){
             index = index + 1;
             return (
             <tr key={transaction.id}>
@@ -44,9 +54,8 @@ class Transaction extends Component{
             </tr>
             )
           }
-        }
+            }
       )}
-
         </tbody>
         </table>
         </div>
@@ -69,5 +78,6 @@ const TRANS_QUERY = gql`
     }`
 
 export default graphql(TRANS_QUERY, {
+  name: "MyQuery",
   options: (props) => {return {variables: {userAddress: props.user }}}
-})(Transaction);
+})(TransactionsList);
