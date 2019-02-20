@@ -1,16 +1,70 @@
 import React, { Component } from "react"
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
-import {Collapsible, CollapsibleItem, Icon} from 'react-materialize';
+import {Collapsible, CollapsibleItem} from 'react-materialize';
 import Transactions from './transactions';
-import graphql from 'react-apollo';
+// import graphql from 'react-apollo';
 import EthBalances from './ethBalances';
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
 
-const Web3 = require('web3');
+const {QUERY} = client.readQuery(
+  query: gql`{
+    users(first:10) {
+    id
+    exchangeBalances {
+        id
+        userAddress
+        exchangeAddress
+        ethDeposited
+        tokensDeposited
+        uniTokensMinted
+        uniTokensBurned
+        ethWithdrawn
+        tokensWithdrawn
+        ethBought
+        tokensBought
+        totalEthFeesPaid
+        totalTokenFeesPaid
+      }
+    }
+  }
+  `
+)
 
-const QUERY = gql`
-{
+class Users extends Component{
+
+  render(){
+    return (
+<div>
+      <Query
+    query={QUERY}
+    >
+      {({ loading, error, data, fetchMore }) => {
+        if (loading) return <p>Loading...</p>;
+        if (error) return <p>Error :</p>;
+          return (
+                <div>
+                  {data.users.map((user, index) => {
+                   return (
+                      <Collapsible key={user.id}>
+                        <CollapsibleItem header={`${user.id}`} icon='account_circle'>
+                        Eth Balance: <EthBalances address={user.id} /><br/>
+                        <div style={{"margin":"0 auto"}}>Transactions:</div> 
+                          <Transactions user={user.id} />
+                        </CollapsibleItem>
+                      </Collapsible>
+                        )
+                  })}
+                </div>
+                )
+            }}
+    </Query>
+    </div>
+    )
+                    }
+}   
+
+const QUERY = gql`{
     users(first:10) {
     id
     exchangeBalances {
@@ -31,55 +85,6 @@ const QUERY = gql`
   }
 }
 ` 
-
-class Users extends Component{
-  constructor(props){
-    super(props);
-    this.state ={
-      ids: []
-    }
-  }
-
-setStateUserAddress(userId){
-  this.setState({
-    ids: [...this, userId]
-  })
-}
-
-  render(){
-    
-    return (
-<div>
-      <Query
-    query={QUERY}
-    >
-      {({ loading, error, data, fetchMore }) => {
-        if (loading) return <p>Loading...</p>;
-        if (error) return <p>Error :</p>;
-          return (
-                <div>
-                  {data.users.map((user, index) => {
-                   this.state.ids.push(user.id)
-                    
-                   return (
-                      <Collapsible key={user.id}>
-                        <CollapsibleItem header={`User ID: ${user.id}`} icon='account_circle'>
-                        Eth Balance: <EthBalances address={user.id} /><br/>
-                        Transactions: 
-                                <Transactions user={user.id} />
-                        </CollapsibleItem>
-                      </Collapsible>
-                        )
-                  })}
-                </div>
-                )
-            }}
-    </Query>
-    </div>
-    )
-                    }
-}   
-
 export default Users;
 
 /**  <Collapsible>

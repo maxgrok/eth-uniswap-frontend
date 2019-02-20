@@ -40,7 +40,9 @@ class EthBalances extends Component{
 
     render(){
         return (
-            <div>{this.state.balance}</div>
+            <div>
+           {this.state.balance}
+           </div>
         )
     }
 }

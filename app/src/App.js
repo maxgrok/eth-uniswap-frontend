@@ -1,25 +1,22 @@
 import React, {Component} from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { ApolloProvider } from "react-apollo";
 import ApolloClient from "apollo-boost";
+import {InMemoryCache, defaultDataFromObjectId} from 'apollo-cache-inmemory';
 import Users from './exchangeRates';
 import TransferEthForm from './transferEthForm';
 import {Collapsible, CollapsibleItem} from 'react-materialize';
-const client = new ApolloClient({
-  uri: "https://api.thegraph.com/subgraphs/name/graphprotocol/uniswap"
-});
+// import { Router, Route, Link, IndexRoute} from 'react-router';
+import { HttpLink } from 'apollo-link-http';
 
-const Web3 = require('web3');
+const client = new ApolloClient({
+  link: new HttpLink("https://api.thegraph.com/subgraphs/name/graphprotocol/uniswap"), 
+  cache: new InMemoryCache({
+    dataIdFromObject: object => object.id || null,
+  })});
 
 
 class App extends Component{
-  componentDidMount(){
-    const web3 = new Web3(
-      new Web3.providers.HttpProvider('https://mainnet.infura.io/')
-    );
-  }
-
   render(){
     return (
   <ApolloProvider client={client}>
@@ -35,10 +32,10 @@ class App extends Component{
           </Collapsible>
           </div>
         </div>
+      <ul>
+          <Users />
+      </ul>
     </div>
-    <ul>
-      <Users />
-    </ul>
   </ApolloProvider>
 )}
     }
