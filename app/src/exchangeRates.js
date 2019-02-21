@@ -19,16 +19,16 @@ class Users extends Component{
       <Query
     query={QUERY}
     >
-      {({ loading, error, data, fetchMore }) => {
+      {({ loading, error, data: {users}, fetchMore }) => {
         if (loading) return <p>Loading...</p>;
         if (error) return <p>Error :</p>;
           return (
                 <div>
-                  {data.users.map((user, index) => {
+                  {users.map((user, index) => {
                    return (
                       <Collapsible>
                         <CollapsibleItem key={user.id} header={`${user.id}`} icon='account_circle'>
-                        Eth Balance: <EthBalances key={`EthBalance-${user.id}`}address={user.id} /><br/>
+                        Eth Balance: <EthBalances key={`EthBalance-${user.id}`} address={user.id} /><br/>
                         <div style={{"margin":"0 auto"}}>Transactions:</div> 
                           <TransactionsList key={`transactions-${user.id}`} user={user.id} />
                         </CollapsibleItem>
@@ -45,7 +45,7 @@ class Users extends Component{
 }   
 
 const QUERY = gql`{
-    users(first:10) {
+    users(first:10){
     id
     exchangeBalances {
         id
