@@ -1,4 +1,4 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and GraphQL. 
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), GraphQL, and Web3. 
 It is meant to be used to explore the Uniswap Subgraph that can be found here: [uniswap-subgraph](https://thegraph.com/explorer/subgraph/graphprotocol/uniswap). 
 
 This project uses GraphQL, React, and Web3 to display the users address, eth balance, and transactions associated with each user, as well as optimistically render the 'transfer ETH' button results. 
@@ -20,14 +20,3 @@ You will also see any lint errors in the console.
 Launches the test runner in the interactive watch mode.<br>
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
