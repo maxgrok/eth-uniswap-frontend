@@ -25,7 +25,6 @@ class TransactionsList extends Component{
 
         if (loading) return <p>Loading...</p>;
         if (error) return <p>Error :</p>;
-        data.refetch(this.props.user);
         return (
         <div>
         <table>
@@ -41,10 +40,9 @@ class TransactionsList extends Component{
             </thead>
           <tbody>
         {data.transactions.map((transaction, index)=>{
-          if(index < 10){
-            index = index + 1;
+          index = index + 1;
             return (
-            <tr key={transaction.id}>
+            <tr key={`tx-${transaction.id}`}>
               <td>{index}</td>
               <td>{transaction.id}</td>
               <td>{new Date(transaction.timeStamp * 1000).toUTCString()}</td>
@@ -53,7 +51,6 @@ class TransactionsList extends Component{
               <td>{transaction.fee} wei</td>
             </tr>
             )
-          }
             }
       )}
         </tbody>
