@@ -1,7 +1,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), GraphQL, and Web3. 
 It is meant to be used to explore the Uniswap Subgraph that can be found here: [uniswap-subgraph](https://thegraph.com/explorer/subgraph/graphprotocol/uniswap). 
 
-This project uses GraphQL, React, and Web3 to display the users address, eth balance, and transactions associated with each user, as well as optimistically render the 'transfer ETH' button results. 
+This project uses GraphQL, React, and Web3 to display the users address, eth balance, and transfer Eth mock up. 
 
 ## Available Scripts
 
