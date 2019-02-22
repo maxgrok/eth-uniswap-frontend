@@ -39,8 +39,8 @@ class EthBalances extends Component{
 
     render(){
         return (
-            <div style={{"float":"right", "margin": "0 0 0 0"}} id="ethBalance" key="ethBalance">
-            <p key={`${this.state.balance}`} style={{ "textAlign": "left","font":"24px", "font-weight":"300"}}><strong>{parseFloat(this.state.balance)}</strong></p>
+            <div style={{"float":"right", "margin": "0 0 0 0"}}>
+            <p key={`${this.state.balance}`} id="ethBalance" style={{ "textAlign": "left","font":"24px", "font-weight":"300"}}><strong id={this.props.address} onClick={(e)=> this.props.onClick(e)}>{parseFloat(this.state.balance)}</strong></p>
                  </div>
         )
     }

@@ -8,23 +8,30 @@ class TransactionsList extends Component{
   constructor(props){
     super(props);
     this.state = {
-      users: []
+      users: [],
+      userAddress: this.props.user
     }
   }
 
   componentDidMount(){
     this.state.users.push(this.props.user);
   }
-
+  componentWillReceiveProps(){
+    this.setState({})
+  }
   render(){
     return (
+      <React.Fragment>
         <Query 
       query={TRANS_QUERY}
+      pollInterval={3000}
+      variables={{$userAddress: this.state.userAddress }}
       >
-            {({ loading, error, data }) => {
+            {({ loading, error, data, refetch, fetchMore}) => {
 
         if (loading) return <p>Loading...</p>;
         if (error) return <p>Error :</p>;
+        
         return (
         <div>
         <table>
@@ -58,6 +65,7 @@ class TransactionsList extends Component{
         </div>
         )}}
             </Query>
+            </React.Fragment>
         )
             }
         }
