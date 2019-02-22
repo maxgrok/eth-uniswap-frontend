@@ -6,6 +6,9 @@ import {Button, Modal} from 'react-materialize';
 // import graphql from 'apollo-boost';
 // import ReactDOM from 'react-dom';
 import Transaction from './transaction';
+import ReactDOM from 'react-dom';
+import $ from 'jquery';
+import App from './App';
 
 const Web3 = require('web3');
 
@@ -55,9 +58,11 @@ class TransferEthForm extends Component{
         //alert Popup confirming transfer complete 
         
     }
+
     async handleSubmit(e){
         e.preventDefault();
         //get balance of To account
+
         const toBalancePromise = await this.getBalance(this.state.to).then(result =>{
             return result;
             });
@@ -80,6 +85,10 @@ class TransferEthForm extends Component{
             this.updateBalance(toBalance, fromBalance);
             
             //render the div with the confirmation of transaction 
+            //add the transaction to both user accounts 
+            const el = React.createElement("<Transaction tx={this.state} key={(Math.random()).toString(16).substring(1)} />")
+            const app = this.props.node 
+            console.log(this.props.children)
             this.setState({ to: "", toBalance: 0, from: "", fromBalance: 0, ethAmount: 0});
     }
 
@@ -103,15 +112,16 @@ class TransferEthForm extends Component{
             <div>
            <form onSubmit={this.handleSubmit.bind(this)}>
                
-               <input style={{"textAlign":"center"}} onChange={(e) =>{this.handleTo(e)} }value={this.state.to} name="to"/>
-               <label >To: </label>
+               <input classID={"toId"} style={{"textAlign":"center"}} onChange={(e) =>{this.handleTo(e)}} value={this.state.to} name="to" />
+               
+               <label >To ID: </label>
 
                
-               <input style={{"textAlign":"center"}} onChange={(e) =>this.handleFrom(e)} value={this.state.from} name="from"/>
-               <label >From: </label>
+               <input classID={"fromId"} style={{"textAlign":"center"}} onChange={(e) =>this.handleFrom(e)} value={this.state.from} name="from"/>
+               <label >From ID: </label>
 
                
-               <input style={{"textAlign":"center"}} onChange={(e) =>this.handleEthAmount(e)} value={this.state.ethAmount} name="ethAmount" />
+               <input classID={"ethAmount"} style={{"textAlign":"center"}} onChange={(e) =>this.handleEthAmount(e)} value={this.state.ethAmount} name="ethAmount" />
                <label>ETH Amount: </label>
 
                <br/>

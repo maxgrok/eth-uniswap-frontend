@@ -5,17 +5,40 @@ import {Collapsible, CollapsibleItem} from 'react-materialize';
 import TransactionsList from './transactionsList';
 // import graphql from 'react-apollo';
 import EthBalances from './ethBalances';
-// import ReactDOM from 'react-dom';
-
+import ReactDOM from 'react-dom';
+import $ from 'jquery';
+import {Icon} from 'react-materialize';
 
 class Users extends Component{
   constructor(props){
     super(props);
+    this.state={
+      user:"",
+      balance: ""
+    }
   }
-
+handleClick(e){
+  e.preventDefault();
+  
+}
   render(){
     return (
 <div>
+      <div className="container">
+      <div className="row">
+        <div className="col s6" >
+          <h3 style={{"textAlign":"left"}}>
+          User ID 
+          </h3>
+          </div>
+          <div className="col s6">
+          <h3 style={{"textAlign":"right"}}>
+            Ether Balance
+            </h3>
+            </div>
+            
+          </div>
+          </div>
       <Query
     query={QUERY}
     >
@@ -26,13 +49,19 @@ class Users extends Component{
                 <div>
                   {users.map((user, index) => {
                    return (
-                      <Collapsible>
-                        <CollapsibleItem key={user.id} header={`${user.id}`} icon='account_circle'>
-                        Eth Balance: <EthBalances key={`EthBalance-${user.id}`} address={user.id} /><br/>
-                        <div style={{"margin":"0 auto"}}>Transactions:</div> 
-                          <TransactionsList key={`transactions-${user.id}`} user={user.id} />
-                        </CollapsibleItem>
-                      </Collapsible>
+
+                    <div class="row">
+    <div className="col s12" >
+      <div className="card gray darken-1" >
+        <div className="card-content" >
+          <span className="card-title"><p style={{"float":"left"}}>{user.id}</p></span>
+          <span style={{"font":"24px", "float":"right","font-weight":"300"}}><EthBalances address={user.id} /></span>
+        </div>
+        <br />
+        <br />
+      </div>
+    </div>
+  </div>
                         )
                   })}
                 </div>

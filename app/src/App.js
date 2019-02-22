@@ -8,13 +8,13 @@ import TransferEthForm from './transferEthForm';
 import {Collapsible, CollapsibleItem} from 'react-materialize';
 // import { Router, Route, Link, IndexRoute} from 'react-router';
 // import { HttpLink } from 'apollo-link-http';
+import ReactDOM from 'react-dom';
 
 const client = new ApolloClient({
   uri: "https://api.thegraph.com/subgraphs/name/graphprotocol/uniswap", 
   cache: new InMemoryCache({
     dataIdFromObject: object => object.id || null,
   })});
-
 
 class App extends Component{
   render(){

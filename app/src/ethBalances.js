@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-
+import ReactDOM from 'react-dom';
 const Web3 = require('web3');
 
 class EthBalances extends Component{
@@ -39,9 +39,9 @@ class EthBalances extends Component{
 
     render(){
         return (
-            <div>
-           {this.state.balance}
-           </div>
+            <div style={{"float":"right", "margin": "0 0 0 0"}} id="ethBalance" key="ethBalance">
+            <p key={`${this.state.balance}`} style={{ "textAlign": "left","font":"24px", "font-weight":"300"}}><strong>{parseFloat(this.state.balance)}</strong></p>
+                 </div>
         )
     }
 }
