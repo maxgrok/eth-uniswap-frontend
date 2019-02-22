@@ -42,7 +42,6 @@ class User extends Component{
        if(user !== this.state.user && balance !== this.state.balance){
 
        this.setState({user: user, balance: balance, toggleOn:true})
-       return ($(`#${user}`).append(<React.Fragment><br/><br/><TransactionsList user={user} balance={balance} /></React.Fragment>))
        }
     }
 
@@ -53,7 +52,7 @@ class User extends Component{
               <div className="card gray darken-1" id={`${this.props.address}`}>
                 <div className={`card-content`} id={`${this.props.address}`} >
                   <span className={`card-title`}><p id={`${this.props.address}`} style={{"float":"left"}}>{this.props.address}</p></span>
-                  <span className="ethBalanceParent" style={{"font":"24px", "float":"right","fontWeight":"300"}}><EthBalances address={this.props.address} setBalance={this.setBalance} onClick={(e)=>this.handleClick}/>{this.state.toggleOn? <TransactionsList user={this.state.user} />: this.state.toggleOn = false}
+                  <span className="ethBalanceParent" style={{"font":"24px", "float":"right","fontWeight":"300"}}><EthBalances address={this.props.address} setBalance={this.setBalance} onClick={(e)=>this.handleClick}/>
                 </span>
                   </div>
                 <br />

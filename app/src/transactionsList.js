@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import gql from 'graphql-tag';
-import { Query } from "react-apollo";
+import { Query, refetch } from "react-apollo";
 import { graphql } from 'react-apollo';
 
 
@@ -9,7 +9,8 @@ class TransactionsList extends Component{
     super(props);
     this.state = {
       users: [],
-      userAddress: this.props.user
+      userAddress: this.props.user,
+      isClicked: false
     }
   }
 
@@ -17,15 +18,29 @@ class TransactionsList extends Component{
     this.state.users.push(this.props.user);
   }
   componentWillReceiveProps(){
-    this.setState({})
+    this.refresh();
   }
+
+  onChange(e){
+    this.setState({userAddress: e.target.id});
+  }
+
+  refresh() {
+    this.props.refetch({
+      userAddress: this.state.userAddress
+    });
+  }
+
   render(){
     return (
       <React.Fragment>
         <Query 
+        id={this.state.userAddress}
       query={TRANS_QUERY}
+      variables={{userAddress: this.state.userAddress }}
       pollInterval={3000}
-      variables={{$userAddress: this.state.userAddress }}
+      onChange={(e)=>{refetch({variables: {userAddress: e.target.id}})}}
+      value={this.state.userAddress}
       >
             {({ loading, error, data, refetch, fetchMore}) => {
 
@@ -34,21 +49,23 @@ class TransactionsList extends Component{
         
         return (
         <div>
+          <br/>
+          <br/>
         <table>
               <thead>
               <tr>
                 <th>Tx#</th>
-                <th>Tx ID</th>
+                <th>Transaction ID</th>
                 <th>TimeStamp</th>
                 <th>ethAmount</th>
                 <th>Token Symbol</th>
-                <th>Fee</th>
+                <th>Gas/Fee</th>
               </tr>
             </thead>
-          <tbody>
         {data.transactions.map((transaction, index)=>{
           index = index + 1;
             return (
+              <tbody id="transaction" style={{"border-bottom":"2px solid #D0D0D0"}}>
             <tr key={`tx-${transaction.id}`}>
               <td>{index}</td>
               <td>{transaction.id}</td>
@@ -57,13 +74,14 @@ class TransactionsList extends Component{
               <td>{transaction.tokenSymbol}</td>
               <td>{transaction.fee} wei</td>
             </tr>
+            </tbody>
             )
             }
       )}
-        </tbody>
         </table>
         </div>
         )}}
+        
             </Query>
             </React.Fragment>
         )
@@ -82,7 +100,4 @@ const TRANS_QUERY = gql`
       }
     }`
 
-export default graphql(TRANS_QUERY, {
-  name: "MyQuery",
-  options: (props) => {return {variables: {userAddress: props.user }}}
-})(TransactionsList);
+export default TransactionsList;
